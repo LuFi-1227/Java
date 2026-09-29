@@ -23,7 +23,7 @@ public class Tree<T extends Comparable<? super T>> {
             return node;
         }else{
             Node<T> sNode = node;
-            if(comparison <= 0){
+            if(comparison >= 0){
                 sNode = decisionNode(value, node.getLeft());
             }else{
                 sNode = decisionNode(value, node.getRight());
@@ -106,7 +106,7 @@ public class Tree<T extends Comparable<? super T>> {
 
         int comparison = node.getData().compareTo(value);
 
-        if (comparison <= 0){
+        if (comparison >= 0){
             Node<T> son = new Node<T>(value);
             son.setFather(node);
             return node.setLeft(son);
@@ -251,14 +251,12 @@ public class Tree<T extends Comparable<? super T>> {
                 Nprefix = prefixo + segmento; 
             }
 
-            String tempString = prefixo;
-
             if(x.getLeft() != null){
-                resultString +=  tempString + (this.terminal(x.getLeft(), Nprefix));
+                resultString +=  (this.terminal(x.getLeft(), Nprefix));
             }
 
             if(x.getRight() != null){
-                resultString += tempString + (this.terminal(x.getRight(), Nprefix));
+                resultString += (this.terminal(x.getRight(), Nprefix));
             }
         }
 
