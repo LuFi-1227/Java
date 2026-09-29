@@ -2,6 +2,8 @@ package BinaryTree;
 
 import java.util.Scanner;
 
+import BinaryTree.Exceptions.NoneNodeException;
+import BinaryTree.Exceptions.RootNodeException;
 import BinaryTree.domain.Tree;
 
 public class Main{
@@ -10,7 +12,9 @@ public class Main{
         System.out.println("1 - Inserir um Nó");
         System.out.println("2 - Ver a árvore");
         System.out.println("3 - Encontrar um nó na árvore");
-        System.out.println("4 - Encerrar programa");
+        System.out.println("4 - Remover um nó na árvore");
+        System.out.println("5 - Atualizar (reordenar) um nó na árvore");
+        System.out.println("6 - Encerrar programa");
         return sc.nextInt();
     }
 
@@ -25,7 +29,7 @@ public class Main{
 
         Tree<Integer> tree = new Tree<Integer>();
 
-        while (option != 4){
+        while (option != 6){
             option = menu(sc);
 
             switch (option) {
@@ -38,9 +42,29 @@ public class Main{
                     System.out.print("\n====================\n\n");
                     break;
                 case 3:
-                    System.out.println(tree.findNode(input("Digite o número a ser buscado na árvore:", sc)));
+                    try{
+                        System.out.println(tree.openNode(input("Digite o número a ser buscado na árvore:", sc)));
+                    }catch(RootNodeException e){
+                        System.out.println("Não há árvore para podermos efetuar a pesquisa.");
+                    }
                     break;
                 case 4: 
+                    System.out.print("\n====================\n\n");
+                    try{
+                        boolean v = tree.removeNode(input("Digite o número a ser removido na árvore:", sc));
+                        System.out.println(v == true ? "Remoção feita com sucesso." : "Falha ao remover");
+                    }catch (NoneNodeException e){
+                        System.out.println(e);
+                    }
+                    System.out.print("\n====================\n\n");
+                    break;
+                case 5:
+                    System.out.print("\n====================\n\n");
+                    boolean v = tree.updateNode(input("Digite o número a ser atualizado na árvore:", sc), input("Digite o novo número a ser inserido na árvore:", sc));
+                    System.out.println(v == true ? "Atualização feita com sucesso." : "Falha ao atualizar");
+                    System.out.print("\n====================\n\n");
+                    break;
+                case 6:
                     break;
                 default:
                     break;
