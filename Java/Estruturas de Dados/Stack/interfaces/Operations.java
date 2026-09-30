@@ -3,6 +3,6 @@ package Stack.interfaces;
 import Stack.domain.Stack;
 
 @FunctionalInterface
-public interface StackOperation {
+public interface Operations {
     void execute(Stack<Integer> stack, Integer data, Integer newData);
 }

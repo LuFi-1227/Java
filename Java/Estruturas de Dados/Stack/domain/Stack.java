@@ -76,6 +76,8 @@ public class Stack<T> {
     public boolean updateNode(T value, T newValue) throws NullStackException{
         Node<T> p = findNode(value);
 
+        if(p==null) return false;
+
         System.out.println(openNode(p) + " updated to " + newValue);
         p.setData(newValue);
         System.out.println(openNode(p));
@@ -99,6 +101,7 @@ public class Stack<T> {
 
     public String findAndOpenNode(T value) throws NullStackException{
         Node<T> p = findNode(value);
+        if (p==null) return "";
         return openNode(p);
     }
 

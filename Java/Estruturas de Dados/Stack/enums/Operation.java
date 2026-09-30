@@ -5,7 +5,7 @@ import java.util.Scanner;
 import Stack.domain.*;
 import Stack.exceptions.FullStackException;
 import Stack.exceptions.NullStackException;
-import Stack.interfaces.StackOperation;;
+import Stack.interfaces.Operations;
 
 public enum Operation {
     INSERT("1 - Inserir itens na pilha", (p, data, newdata) -> {
@@ -27,7 +27,8 @@ public enum Operation {
 
     FIND("3 - Buscar itens na pilha", (p, data, newdata) -> {
         try {
-            System.out.println(p.findAndOpenNode(data) + "encontrado!");
+            String node = p.findAndOpenNode(data);
+            System.out.println(node + node!="" ? "não encontrado." : "encontrado!");
         } catch (NullStackException e) {
             System.out.println(e);
             e.printStackTrace();
@@ -35,7 +36,10 @@ public enum Operation {
 
     UPDATE("4 - Atualizar dados na pilha", (p, data, newdata)->{
         try {
-            p.updateNode(data, newdata);
+            boolean flag = p.updateNode(data, newdata);
+            if(!flag){
+                System.out.println(data + " não está na pilha.");
+            }
         } catch (NullStackException e) {
             System.out.println(e);
             e.printStackTrace();
@@ -53,9 +57,9 @@ public enum Operation {
     EXIT("7 - Sair", (p, data, newdata)->{});
 
     private final String optionMenu;
-    private final StackOperation operation;
+    private final Operations operation;
 
-    Operation(String optionMenu, StackOperation operation) {
+    Operation(String optionMenu, Operations operation) {
         this.optionMenu = optionMenu;
         this.operation = operation;
     }
