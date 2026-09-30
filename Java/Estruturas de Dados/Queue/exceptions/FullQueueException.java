@@ -1,0 +1,7 @@
+package Queue.exceptions;
+
+public class FullQueueException extends Exception{
+    public FullQueueException(String message){
+        super(message);
+    }
+}

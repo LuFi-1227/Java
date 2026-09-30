@@ -3,34 +3,53 @@ package Queue.enums;
 import java.util.Scanner;
 
 import Queue.domain.*;
-
+import Queue.exceptions.*;
 import Queue.interfaces.Operations;
 
 public enum Operation {
-    INSERT("1 - Inserir itens na pilha", (p, data, newdata) -> {
-       
+    INSERT("1 - Inserir itens na fila", (f, data, newdata) -> {
+        try{
+            System.out.println("Adicionando: " + f.insert(new Node<Integer>(data)).openNode());
+        }catch(FullQueueException e){
+             System.out.println(e);
+        }
     }),
 
-    REMOVE("2 - Remover itens da pilha", (p, data, newdata) -> {
-        
+    REMOVE("2 - Remover itens da fila", (f, data, newdata) -> {
+        try{
+            System.out.println("Removendo: " + f.remove().openNode());
+        }catch(NullQueueException e){
+            System.out.println(e);
+        }
     }),
 
-    FIND("3 - Buscar itens na pilha", (p, data, newdata) -> {
-       }),
-
-    UPDATE("4 - Atualizar dados na pilha", (p, data, newdata)->{
-        
+    FIND("3 - Buscar itens na fila", (f, data, newdata) -> {
+        try{
+            Node<Integer> n = f.find(data);
+            System.out.println(n != null ? ("Encontrado: " + n.openNode()) : "Valor não encontrado!");
+        }catch(NullQueueException e){
+            System.out.println(e);
+        }
     }),
 
-    GETLENGHT("5 - Ver tamanho da pilha", (p, data, newdata)->{
-        
+    UPDATE("4 - Atualizar dados na fila", (f, data, newdata)->{
+        try{
+            Node<Integer> n = f.update(data, newdata);
+            System.out.println(n != null ? ("Atualizado: " + n.openNode()) : "Valor não pode ser alterado porque não está na fila.");
+        }catch(NullQueueException e){
+            System.out.println(e);
+        }
     }),
 
-    READ("6 - Visualizar a pilha inteira", (p, data, newdata)->{
-        
+    GETLENGHT("5 - Ver tamanho da fila", (f, data, newdata)->{
+        System.out.println("Tamanho: " + f.getLenght());
     }),
 
-    EXIT("7 - Sair", (p, data, newdata)->{});
+    READ("6 - Visualizar a fila inteira", (f, data, newdata)->{
+        System.out.println(f);
+    }),
+
+    EXIT("7 - Sair", (f, data, newdata)->{});
 
     private final String optionMenu;
     private final Operations operation;
