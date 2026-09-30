@@ -108,6 +108,7 @@ public class Stack<T> {
 
         while (p != null){
             resultString += p.getData() + (p.getProxNode() != null ? " -> " : "");
+            p = p.getProxNode();
         }
 
         return resultString;

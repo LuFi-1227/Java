@@ -1,5 +1,7 @@
 package Stack.enums;
 
+import java.util.Scanner;
+
 import Stack.domain.*;
 import Stack.exceptions.FullStackException;
 import Stack.exceptions.NullStackException;
@@ -25,7 +27,7 @@ public enum Operation {
 
     FIND("3 - Buscar itens na pilha", (p, data, newdata) -> {
         try {
-            p.findAndOpenNode(data);
+            System.out.println(p.findAndOpenNode(data) + "encontrado!");
         } catch (NullStackException e) {
             System.out.println(e);
             e.printStackTrace();
@@ -48,7 +50,7 @@ public enum Operation {
         System.out.println(p);
     }),
 
-    EXIT("7 - Sair", (p, data, newdata)->{System.exit(0);});
+    EXIT("7 - Sair", (p, data, newdata)->{});
 
     private final String optionMenu;
     private final StackOperation operation;
@@ -62,7 +64,36 @@ public enum Operation {
         return optionMenu;
     }
 
-    public void execute(Stack<Integer> stack, Integer data, Integer newData) {
-        operation.execute(stack, data, newData);
+    public static Integer input(Scanner sc, String s){
+        System.out.print(s);
+        return sc.nextInt();
+    }
+
+    public void execute(Stack<Integer> stack, Scanner sc) {
+        String message = null;
+        switch (this) {
+            case INSERT:
+                message = "Digite um número para inserir: ";
+                break;
+
+            case FIND:
+                message = "Digite um número para buscar: ";
+                break;
+
+            case REMOVE:
+            case GETLENGHT:
+            case READ:
+                operation.execute(stack, null, null);
+                return;
+            case UPDATE:
+                operation.execute(stack, input(sc, "Digite o numero do Nó que deseja alterar:"), input(sc, "Digite o novo numero do nó:"));
+                return;
+            case EXIT:
+                return;
+            default:
+                return;
+        }
+
+        operation.execute(stack, input(sc, message), null);
     }
 }
