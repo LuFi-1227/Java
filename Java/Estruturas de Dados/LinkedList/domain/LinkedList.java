@@ -47,6 +47,7 @@ public class LinkedList<T> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public Node<T>[] find(T data) throws NodeNotFoundException, LinkedListEmpty {
         Node<T> node = getFirstNode();
         if(node == null){
