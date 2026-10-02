@@ -1,8 +1,8 @@
-package LinkedList.domain;
+package DoublyLinkedList.domain;
 
-import LinkedList.exceptions.*;
+import DoublyLinkedList.exceptions.*;
 
-public class LinkedList<T> {
+public class DoublyLinkedList<T> {
     private Node<T> firstNode = null;
     private Node<T> lastNode = null;
     private int lenght = 0;
@@ -31,7 +31,7 @@ public class LinkedList<T> {
         this.lastNode = lastNode;
     }
 
-    public LinkedList() {
+    public DoublyLinkedList() {
     }
 
     public Node<T> addNode(T data){
@@ -42,58 +42,61 @@ public class LinkedList<T> {
             return getFirstNode();
         }else{
             getLastNode().setProxNode(new Node<T>(data));
+            getLastNode().getProxNode().setPrevNode(getLastNode());
             setLastNode(getLastNode().getProxNode());
             setLenght(getLenght() + 1);
             return getLastNode();
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public Node<T>[] find(T data) throws NodeNotFoundException, LinkedListEmpty {
+    public Node<T> find(T data) throws NodeNotFoundException, DoublyLinkedListEmpty {
         Node<T> node = getFirstNode();
         if(node == null){
-            throw new LinkedListEmpty("LinkedList is empty");
+            throw new DoublyLinkedListEmpty("LinkedList is empty");
         }
-        Node<T>[] nodes = (Node<T>[]) new Node[2];
+        Node<T> noder = null;
         while(node != null){
             if(node.getData().equals(data)){
-                nodes[0] = null;
-                nodes[1] = node;
-                return nodes;
-            }
-            if(node.getProxNode() != null && node.getProxNode().getData().equals(data)){
-                nodes[0] = node;
-                nodes[1] = node.getProxNode();
-                return nodes;
+                noder = node;
+                return noder;
             }
             node = node.getProxNode();
         }
         throw new NodeNotFoundException("Node not found");
     }
 
-    public Node<T> removeNode(T data) throws NodeNotFoundException, LinkedListEmpty {
-        Node<T>[] nodes = find(data);
-        if(nodes == null){
+    public Node<T> removeNode(T data) throws NodeNotFoundException, DoublyLinkedListEmpty {
+        Node<T> noder = find(data);
+        if(noder == null){
             throw new NodeNotFoundException("Node not found");
         }
-        if(nodes[0] == null){
-            setFirstNode(nodes[1].getProxNode());
+        if(noder == getFirstNode()){
+            setFirstNode(noder.getProxNode());
+            getFirstNode().setPrevNode(null);
             setLenght(getLenght() - 1);
-            return nodes[1];
+            return noder;
         }else{
-            nodes[0].setProxNode(nodes[1].getProxNode());
-            setLenght(getLenght() - 1);
-            return nodes[1];
+            if(noder == getLastNode()){
+                setLastNode(noder.getPrevNode());
+                getLastNode().setProxNode(null);
+                setLenght(getLenght() - 1);
+                return noder;
+            }else{
+                noder.getPrevNode().setProxNode(noder.getProxNode());
+                noder.getProxNode().setPrevNode(noder.getPrevNode());
+                setLenght(getLenght() - 1);
+                return noder;
+            }
         }
     }
 
-    public Node<T> updateNode(T data, T newData) throws NodeNotFoundException, LinkedListEmpty {
-        Node<T>[] nodes = find(data);
-        if(nodes == null){
+    public Node<T> updateNode(T data, T newData) throws NodeNotFoundException, DoublyLinkedListEmpty {
+        Node<T> noder = find(data);
+        if(noder == null){
             throw new NodeNotFoundException("Node not found");
         }
-        nodes[1].setData(newData);
-        return nodes[1];
+        noder.setData(newData);
+        return noder;
     }
 
     public String toString() {
